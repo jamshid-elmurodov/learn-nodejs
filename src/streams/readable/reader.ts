@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 
 // data - bu ma'lumotlarni kelganda ishlayda ya'ni highWaterMark nechaga teng bo'lsa data da ham undan katta bo'lmagan
 // ma'lumot keladi.
+
 (async () => {
     const fileHandleRead = await fs.open('test.txt', 'r');
     const fileHandleWrite = await fs.open('write.txt', 'w');
@@ -29,10 +30,6 @@ import fs from "node:fs/promises";
     })
 })()
 
-
-
-
-// bu muammoni aytishidan oldin o'zim tushundim
 // splitting issue - bu ma'lumotlar bizga chunklarda keladi,
 // aytaylik readable streamning hihgWaterMark = 10 byte endi biz o'sha 10 ta belgini har safar
 // split qilyapmiz. lekin u boshqa raqamning yarmini olib kelgan bo'lishi mumkin
@@ -42,10 +39,3 @@ import fs from "node:fs/promises";
 // 3 - chunk: 114 11115
 // 4 - chunk: 11116
 // shu sabaddan muammo bo'lyapti
-
-
-
-
-
-
-// pipe metodi - bu readable streamni avtomatik writable streamga yo'naltiradi, va hamma narsani o'zi avtomatik boshqaradi
