@@ -1,10 +1,9 @@
 # Transport layer
 - TCP: datani yuborilganligini tekshiradi, agar fail bo'lgan bo'lsa yana qayta yuboradi shuning uchun ham xavfsiz.
        va data ning tartibini nazorat qiladi, shuning uchun ham u sekinroq, foydalanish maqsadlari: http, https, ftp, smtp 
-    - Field | Tavsif
     - Source Port | Qaysi portdan yuborilgan
     - Destination Port | Qaysi portga borishi kerak
-    - Sequence Number | Ma’lumot tartibini saqlash uchun
+    - Sequence Number | Data tartibini saqlash uchun
     - Acknowledgment Number | Oldingi paket olinganini tasdiqlash
     - Header Length | TCP headerning uzunligi
     - Flags | SYN, ACK, FIN, RST kabi boshqaruv bitlari
@@ -15,7 +14,6 @@
 
 - UDP: data yuboradi va uning muvaffaqiyatli yuborilganligini tekshirmaydi, shunig ba'zida data yo'qolishi mumkin.
        shuning uchun ham u tez, foydalanish maqsadlari: video call, gaming, live stream 
-    - Field | Tavsif
     - Source Port | Qaysi portdan yuborilgan
     - Destination Port | Qaysi portga borishi kerak
     - Length | Butun UDP paketining uzunligi (header + data)
