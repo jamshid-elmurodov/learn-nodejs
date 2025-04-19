@@ -1,4 +1,4 @@
-import net, { Socket } from "net";
+import net, { Server, Socket } from "net";
 
 type Message = {
   id : number;
@@ -7,13 +7,19 @@ type Message = {
 
 const members: Map<number, Socket> = new Map();
 
-const server = net.createServer();
+const server : Server = net.createServer();
 
 server.on("connection", (socket) => {
-  members.set(members.size + 1, socket);
-  console.log(`New member joined id: ${members.size}`);
+  let id = members.size + 1;
 
-  socket.write(`your-id-${members.size}`);
+  members.forEach(member => {
+    member.write(`Member ${id} joined!`)
+  })
+
+  members.set(id, socket);
+  console.log(`New member joined id: ${id}`);
+
+  socket.write(`your-id-${id}`);
 
   socket.on("data", (data) => {
     const json : Message = JSON.parse(data.toString());
@@ -25,6 +31,12 @@ server.on("connection", (socket) => {
       c.write(msg);
     });
   });
+
+  socket.on('end', () => {
+    members.forEach(member => {
+      member.write(`Member ${id} left!`)
+    })
+  })
 });
 
 server.listen(3001, "127.0.0.1", () => {
