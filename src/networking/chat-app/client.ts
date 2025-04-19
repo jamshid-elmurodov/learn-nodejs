@@ -1,6 +1,8 @@
 import net from "net";
 import readline from "readline/promises";
 
+let id: number;
+
 const reader = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -29,7 +31,12 @@ const asker = async () => {
 
   await lineCleaner();
 
-  conn.write(msg);
+  conn.write(
+    JSON.stringify({
+      id,
+      message: msg,
+    })
+  );
 };
 
 conn.on("connect", async () => {
@@ -38,9 +45,17 @@ conn.on("connect", async () => {
 });
 
 conn.on("data", async (data) => {
+  const msg = data.toString();
+
   await lineCleaner();
   await cursorMover();
 
-  console.log("\nNew message: ", data.toString());
+  if (msg.startsWith("your-id-")) {
+    id = Number(msg.substring(8));
+    console.log(`\nYour id is ${id}`);
+  } else {
+    console.log("\n", data.toString());
+  }
+
   await asker();
 });

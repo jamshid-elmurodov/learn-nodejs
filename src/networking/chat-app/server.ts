@@ -1,16 +1,28 @@
 import net, { Socket } from "net";
 
-const members: Array<{socket: Socket }> = [];
+type Message = {
+  id : number;
+  message: string
+}
 
-const server = net.createServer((socket) => {
-  members.push({ socket });
-  console.log(`New member`);
+const members: Map<number, Socket> = new Map();
+
+const server = net.createServer();
+
+server.on("connection", (socket) => {
+  members.set(members.size + 1, socket);
+  console.log(`New member joined id: ${members.size}`);
+
+  socket.write(`your-id-${members.size}`);
 
   socket.on("data", (data) => {
-    console.log(`New message: ${data.toString()}`);
+    const json : Message = JSON.parse(data.toString());
+
+    const msg = `> Member ${json.id}: ${json.message}`;
+    console.log(msg);
 
     members.forEach((c) => {
-      c.socket.write(`${data}`);
+      c.write(msg);
     });
   });
 });
